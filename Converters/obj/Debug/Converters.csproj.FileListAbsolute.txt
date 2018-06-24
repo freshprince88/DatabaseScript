@@ -1,0 +1,13 @@
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\bin\Debug\Converters.exe.config
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\bin\Debug\Converters.exe
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\bin\Debug\Converters.pdb
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\MainWindow.g.cs
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\App.g.cs
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters_MarkupCompile.cache
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters_MarkupCompile.lref
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\MainWindow.baml
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters.g.resources
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters.Properties.Resources.resources
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters.csproj.GenerateResource.Cache
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters.exe
+C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\Converters\obj\Debug\Converters.pdb
