@@ -18,17 +18,20 @@ using MahApps.Metro.Controls;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using OfficeOpenXml;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace DatabaseScript
+
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow
+    public partial class MainWindow : INotifyPropertyChanged
 
     {
-        IEnumerable<string> folderNames = Enumerable.Empty<string>();
-        List<string> selectedFoldersList = new List<string>();
+        ObservableCollection<string> folderNames = new ObservableCollection<string>();
+        //List<string> folderNames = new List<string>();
+        List<string> selectedFoldersInListView = new List<string>();
         List<MatchEntry> matches = new List<MatchEntry>();
         public int singlesCounter
         {
@@ -39,6 +42,44 @@ namespace DatabaseScript
             get; set;
 
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+
+        }
+
+        private bool _anyFilesToExport;
+
+        public bool AnyFilesToExport
+        {
+            get
+            {
+                return _anyFilesToExport;
+            }
+            set
+            {
+                _anyFilesToExport = value;
+                OnPropertyChanged("AnyFilesToExport");
+
+            }
+        }
+
+        private bool _anyFolderLoaded;
+
+        public bool AnyFolderLoaded
+        {
+            get
+            {
+                return _anyFolderLoaded ;
+            }
+            set { _anyFolderLoaded = value;
+                OnPropertyChanged("AnyFolderLoaded");
+
+            }
+        }
 
 
 
@@ -47,7 +88,16 @@ namespace DatabaseScript
             InitializeComponent();
             DataContext = this;
             UpdateCounters(singlesCounter, doublesCounter);
-            UpdateSelectedFolders(selectedFoldersList);
+            UpdateSelectedFolders(selectedFoldersInListView);
+            AnyFolderLoaded = false;
+            AnyFilesToExport = false;
+            folderNames.CollectionChanged += FolderNames_CollectionChanged;      
+        }
+
+        private void FolderNames_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+
+            OnPropertyChanged("AnyFolderLoaded");
         }
 
         private void LoadFolder_Click(object sender, RoutedEventArgs e)
@@ -61,162 +111,15 @@ namespace DatabaseScript
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 //Save selected folders in variable folderNames
-                folderNames = folderNames.Concat(openFolder.FileNames);
+
+                var obs = new ObservableCollection<string>(openFolder.FileNames);
+                folderNames = new ObservableCollection<string>(folderNames.Concat(obs));
+                
+           
                 UpdateSelectedFolders(folderNames);
+                UpdateSelectedMatches(folderNames);
 
-                //Make a list of all files within the selected folders
-
-                IEnumerable<string> fileNames = new List<string>();
-                matches.Clear();
-                foreach (string value in folderNames)
-                {
-                    fileNames = fileNames.Concat(Directory.GetFiles(value, "*", SearchOption.AllDirectories).Select(f => System.IO.Path.GetFileName(f)));
-                }
-                string completeListOfFiles = string.Join("\n\n", fileNames.ToArray());
-                //System.Windows.Forms.MessageBox.Show("Complete list of files:\n" + completeListOfFiles);
-
-                singlesCounter = 0;
-                doublesCounter = 0;
-
-
-                foreach (string value in fileNames)
-                {   /*System.Windows.Forms.MessageBox.Show(value.Substring(0, 2)+","+ value.Substring(2, 2)+","+ value.Substring(4, 2));*/
-                    string currentFileName = value;
-
-                    //cut .MP4 , .MOV etc
-                    int indexMP4 = currentFileName.LastIndexOf(".");
-                    currentFileName = currentFileName.Substring(0, indexMP4);
-
-                    //new MatchEntry
-                    MatchEntry m = new MatchEntry();
-
-                    int testFormat = currentFileName.Count(f => f == '_');
-
-                    if (testFormat >= 10)
-                    {
-
-
-
-                        //get Date
-
-                        if (getNextWord(currentFileName).Length == 6)
-                            m.DateTime = new DateTime(2000 + Int32.Parse(currentFileName.Substring(0, 2)), Int32.Parse(currentFileName.Substring(2, 2)), Int32.Parse(currentFileName.Substring(4, 2)));
-                        currentFileName = cutNextWord(currentFileName);
-
-                        //get Round
-                        string round = getLastWord(currentFileName);
-                        currentFileName = cutLastWord(currentFileName);
-                        try
-                        {
-                            m.Round = (MatchRound)Enum.Parse(typeof(MatchRound), round);
-                        }
-                        catch (Exception ex)
-                        {
-                            //System.Windows.Forms.MessageBox.Show(value +"\n could not be parsed. Wrong ROUND!!" );
-                            m.Round = MatchRound.Round;
-                            
-                        }
-
-
-                        //get Class if available
-
-                        string disabiltyClass = getLastWord(currentFileName);
-                        try
-                        {
-                            m.DisabilityClass = (DisabilityClass)Enum.Parse(typeof(DisabilityClass), disabiltyClass.Replace("-", "_"));
-                            currentFileName = cutLastWord(currentFileName);
-                        }
-                        catch (Exception ex)
-                        {
-                            //System.Windows.Forms.MessageBox.Show(value +"\n could not be parsed. Wrong ROUND!!" );
-                            m.DisabilityClass = DisabilityClass.NoClass;
-                        }
-
-                        
-
-                        //get Category
-                        string category = getLastWord(currentFileName);
-                        m.Category = (MatchCategory)Enum.Parse(typeof(MatchCategory), category);
-                        m.Sex = setSex(m);
-                        currentFileName = cutLastWord(currentFileName);
-
-                        //get Year
-                        int year = Int32.Parse(getLastWord(currentFileName));
-                        m.Year = year;
-                        currentFileName = cutLastWord(currentFileName);
-
-                        //get Tournament
-                        string tournament = getLastWord(currentFileName);
-                        m.Tournament = tournament;
-                        currentFileName = cutLastWord(currentFileName);
-
-                        //get players
-                        //count "_" first
-                        int count = currentFileName.Count(f => f == '_');
-                        if (count >= 5 && count < 11)
-                        {
-                            m.FirstPlayer = new Player();
-                            m.SecondPlayer = new Player();
-
-                            //Player 1
-                            m.FirstPlayer.Name = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-                            // if more words for family name
-                            while (IsAllUpper(getNextWord(currentFileName)))
-                            {
-                                m.FirstPlayer.Name = m.FirstPlayer.Name + " " + getNextWord(currentFileName);
-                                currentFileName = cutNextWord(currentFileName);
-                            }
-                            m.FirstPlayer.FirstName = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-
-                            // if more words for first name
-                            while (!(IsAllUpper(getNextWord(currentFileName)) && getNextWord(currentFileName).Length == 3))
-                            {
-                                m.FirstPlayer.FirstName = m.FirstPlayer.FirstName + " " + getNextWord(currentFileName);
-                                currentFileName = cutNextWord(currentFileName);
-                            }
-                            m.FirstPlayer.Nationality = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-
-                            //Player 2
-                            m.SecondPlayer.Name = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-                            // if more words for family name
-                            while (IsAllUpper(getNextWord(currentFileName)))
-                            {
-                                m.SecondPlayer.Name = m.SecondPlayer.Name + " " + getNextWord(currentFileName);
-                                currentFileName = cutNextWord(currentFileName);
-                            }
-                            m.SecondPlayer.FirstName = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-                            // if more words for first name
-                            while (!(IsAllUpper(getNextWord(currentFileName)) && currentFileName.Length == 3))
-                            {
-                                m.SecondPlayer.FirstName = m.SecondPlayer.FirstName + " " + getNextWord(currentFileName);
-                                currentFileName = cutNextWord(currentFileName);
-                            }
-                            m.SecondPlayer.Nationality = getNextWord(currentFileName);
-                            currentFileName = cutNextWord(currentFileName);
-                            //System.Windows.Forms.MessageBox.Show("Players for match: " + value.ToString());
-                            //System.Windows.Forms.MessageBox.Show("Name of P1: " + m.FirstPlayer.Name + "\nFirst Name of P1: " + m.FirstPlayer.FirstName + "\nNationality of P1: " + m.FirstPlayer.Nationality);
-                            //System.Windows.Forms.MessageBox.Show("Name of P2: " + m.SecondPlayer.Name + "\nFirst Name of P2: " + m.SecondPlayer.FirstName + "\nNationality of P2: " + m.SecondPlayer.Nationality);
-                            singlesCounter++;
-
-                            //add Match Entry to List of all Matches
-                            matches.Add(m);
-                        }
-                        else if (count >= 11)
-                        {
-                            doublesCounter++;
-                        }
-                        
-                    }
-                    //System.Windows.Forms.MessageBox.Show("Singles counter: " + singlesCounter.ToString());
-                    //System.Windows.Forms.MessageBox.Show("Doubles counter: " + doublesCounter.ToString());
-                    UpdateCounters(singlesCounter, doublesCounter);
-
-                }
+                
             }
         }
 
@@ -302,7 +205,7 @@ namespace DatabaseScript
         
         private void ClearAllFolders_Click(object sender, RoutedEventArgs e)
         {
-            folderNames = Enumerable.Empty<string>();
+            folderNames.Clear();
             matches.Clear();
             singlesCounter = 0;
             doublesCounter = 0;
@@ -316,18 +219,190 @@ namespace DatabaseScript
         private void ClearSelectedFolders_Click(object sender, RoutedEventArgs e)
         {
 
+            int countSelected = DisplaySelectedFolders.SelectedItems.Count;
+
+            for (int i = 0; i<countSelected; i++)
+            {
+                string firstSelectedItem = DisplaySelectedFolders.SelectedItem.ToString();
+                folderNames.Remove(firstSelectedItem);
+            }
+            UpdateSelectedFolders(folderNames);
+            UpdateSelectedMatches(folderNames);
         }
 
         private void ExportDoubles_Click(object sender, RoutedEventArgs e)
         {
 
+
         }
 
         #region Update Methods
 
+        private void UpdateSelectedMatches(IEnumerable<string> sf)
+        {
+            //Make a list of all files within the selected folders
+
+            IEnumerable<string> fileNames = new List<string>();
+            matches.Clear();
+            foreach (string value in folderNames)
+            {
+                fileNames = fileNames.Concat(Directory.GetFiles(value, "*", SearchOption.AllDirectories).Select(f => System.IO.Path.GetFileName(f)));
+            }
+            string completeListOfFiles = string.Join("\n\n", fileNames.ToArray());
+            //System.Windows.Forms.MessageBox.Show("Complete list of files:\n" + completeListOfFiles);
+
+            singlesCounter = 0;
+            doublesCounter = 0;
+
+
+            foreach (string value in fileNames)
+            {   /*System.Windows.Forms.MessageBox.Show(value.Substring(0, 2)+","+ value.Substring(2, 2)+","+ value.Substring(4, 2));*/
+                string currentFileName = value;
+
+                //cut .MP4 , .MOV etc
+                int indexMP4 = currentFileName.LastIndexOf(".");
+                currentFileName = currentFileName.Substring(0, indexMP4);
+
+                //new MatchEntry
+                MatchEntry m = new MatchEntry();
+
+                int testFormat = currentFileName.Count(f => f == '_');
+
+                if (testFormat >= 10)
+                {
+
+
+
+                    //get Date
+
+                    if (getNextWord(currentFileName).Length == 6)
+                        m.DateTime = new DateTime(2000 + Int32.Parse(currentFileName.Substring(0, 2)), Int32.Parse(currentFileName.Substring(2, 2)), Int32.Parse(currentFileName.Substring(4, 2)));
+                    currentFileName = cutNextWord(currentFileName);
+
+                    //get Round
+                    string round = getLastWord(currentFileName);
+                    currentFileName = cutLastWord(currentFileName);
+                    try
+                    {
+                        m.Round = (MatchRound)Enum.Parse(typeof(MatchRound), round);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Windows.Forms.MessageBox.Show(value +"\n could not be parsed. Wrong ROUND!!" );
+                        m.Round = MatchRound.Round;
+
+                    }
+
+
+                    //get Class if available
+
+                    string disabiltyClass = getLastWord(currentFileName);
+                    try
+                    {
+                        m.DisabilityClass = (DisabilityClass)Enum.Parse(typeof(DisabilityClass), disabiltyClass.Replace("-", "_"));
+                        currentFileName = cutLastWord(currentFileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Windows.Forms.MessageBox.Show(value +"\n could not be parsed. Wrong ROUND!!" );
+                        m.DisabilityClass = DisabilityClass.NoClass;
+                    }
+
+
+
+                    //get Category
+                    string category = getLastWord(currentFileName);
+                    m.Category = (MatchCategory)Enum.Parse(typeof(MatchCategory), category);
+                    m.Sex = setSex(m);
+                    currentFileName = cutLastWord(currentFileName);
+
+                    //get Year
+                    int year = Int32.Parse(getLastWord(currentFileName));
+                    m.Year = year;
+                    currentFileName = cutLastWord(currentFileName);
+
+                    //get Tournament
+                    string tournament = getLastWord(currentFileName);
+                    m.Tournament = tournament;
+                    currentFileName = cutLastWord(currentFileName);
+
+                    //get players
+                    //count "_" first
+                    int count = currentFileName.Count(f => f == '_');
+                    if (count >= 5 && count < 11)
+                    {
+                        m.FirstPlayer = new Player();
+                        m.SecondPlayer = new Player();
+
+                        //Player 1
+                        m.FirstPlayer.Name = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+                        // if more words for family name
+                        while (IsAllUpper(getNextWord(currentFileName)))
+                        {
+                            m.FirstPlayer.Name = m.FirstPlayer.Name + " " + getNextWord(currentFileName);
+                            currentFileName = cutNextWord(currentFileName);
+                        }
+                        m.FirstPlayer.FirstName = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+
+                        // if more words for first name
+                        while (!(IsAllUpper(getNextWord(currentFileName)) && getNextWord(currentFileName).Length == 3))
+                        {
+                            m.FirstPlayer.FirstName = m.FirstPlayer.FirstName + " " + getNextWord(currentFileName);
+                            currentFileName = cutNextWord(currentFileName);
+                        }
+                        m.FirstPlayer.Nationality = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+
+                        //Player 2
+                        m.SecondPlayer.Name = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+                        // if more words for family name
+                        while (IsAllUpper(getNextWord(currentFileName)))
+                        {
+                            m.SecondPlayer.Name = m.SecondPlayer.Name + " " + getNextWord(currentFileName);
+                            currentFileName = cutNextWord(currentFileName);
+                        }
+                        m.SecondPlayer.FirstName = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+                        // if more words for first name
+                        while (!(IsAllUpper(getNextWord(currentFileName)) && currentFileName.Length == 3))
+                        {
+                            m.SecondPlayer.FirstName = m.SecondPlayer.FirstName + " " + getNextWord(currentFileName);
+                            currentFileName = cutNextWord(currentFileName);
+                        }
+                        m.SecondPlayer.Nationality = getNextWord(currentFileName);
+                        currentFileName = cutNextWord(currentFileName);
+                        //System.Windows.Forms.MessageBox.Show("Players for match: " + value.ToString());
+                        //System.Windows.Forms.MessageBox.Show("Name of P1: " + m.FirstPlayer.Name + "\nFirst Name of P1: " + m.FirstPlayer.FirstName + "\nNationality of P1: " + m.FirstPlayer.Nationality);
+                        //System.Windows.Forms.MessageBox.Show("Name of P2: " + m.SecondPlayer.Name + "\nFirst Name of P2: " + m.SecondPlayer.FirstName + "\nNationality of P2: " + m.SecondPlayer.Nationality);
+                        singlesCounter++;
+
+                        //add Match Entry to List of all Matches
+                        matches.Add(m);
+                    }
+                    else if (count >= 11)
+                    {
+                        doublesCounter++;
+                    }
+
+                }
+                //System.Windows.Forms.MessageBox.Show("Singles counter: " + singlesCounter.ToString());
+                //System.Windows.Forms.MessageBox.Show("Doubles counter: " + doublesCounter.ToString());
+
+            }
+            UpdateCounters(singlesCounter, doublesCounter);
+            AnyFilesToExport = matches.Count > 0;
+
+
+        }
+
+
         private void UpdateSelectedFolders(IEnumerable<string> sf)
         {
             DisplaySelectedFolders.ItemsSource = sf.ToList();
+            AnyFolderLoaded = folderNames.Count > 0;
 
         }
         private void UpdateCounters(int sc, int dc)

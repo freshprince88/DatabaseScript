@@ -25,7 +25,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Name="LoadFolder" Grid.Row="0" Grid.Column="0" Content="Load Folder(s)" Click="LoadFolder_Click" Height="100" Width="200"></Button>
-            <Button Name="ClearSelectedFolders" Grid.Row="0" Grid.Column="1" Content="Clear selected Folder(s)" Click="ClearSelectedFolders_Click"  Height="100" Width="200" IsEnabled="False"></Button>
+            <Button Name="ClearSelectedFolders" Grid.Row="0" Grid.Column="1" Content="Clear selected Folder(s)" Click="ClearSelectedFolders_Click"  Height="100" Width="200" IsEnabled="{Binding AnyFolderLoaded}"></Button>
             <Button Name="ClearAllFolders" Grid.Row="0" Grid.Column="2" Content="Clear all loaded Folder(s)" Click="ClearAllFolders_Click"  Height="100" Width="200"></Button>
 
         </Grid>
@@ -63,7 +63,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Name="ExportSingles" Grid.Column="0" Content="Export Singles to Excel" Click="ExportSingles_Click"  Height="100" Width="200" ></Button>
+            <Button Name="ExportSingles" Grid.Column="0" Content="Export Singles to Excel" Click="ExportSingles_Click"  Height="100" Width="200" IsEnabled="{Binding AnyFilesToExport}" ></Button>
             <Button Name="ExportDoubles" Grid.Column="1" Content="Export Doubles to Excel" Click="ExportDoubles_Click"  Height="100" Width="200" IsEnabled="False" ></Button>
 
 
