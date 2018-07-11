@@ -145,47 +145,49 @@ namespace DatabaseScript
                 Singles.Column(2).Style.Numberformat.Format = "dd.mm.yyyy";
 
                 Singles.Cells[1, 1].Value = "ID";
-                Singles.Cells[1, 2].Value = "Date";
-                Singles.Cells[1, 3].Value = "Tournament";
-                Singles.Cells[1, 4].Value = "Year";
-                Singles.Cells[1, 5].Value = "Category";
-                Singles.Cells[1, 6].Value = "Class";
-                Singles.Cells[1, 7].Value = "Round";
-                Singles.Cells[1, 8].Value = "Sex";
-                Singles.Cells[1, 9].Value = "Playtime (gross)";
-                Singles.Cells[1, 10].Value = "Surname A";
-                Singles.Cells[1, 11].Value = "First Name A";
-                Singles.Cells[1, 12].Value = "Country A";
-                Singles.Cells[1, 13].Value = "Class A";
-                Singles.Cells[1, 14].Value = "Ranking A";
-                Singles.Cells[1, 15].Value = "Surname B";
-                Singles.Cells[1, 16].Value = "First Name B";
-                Singles.Cells[1, 17].Value = "Country B";
-                Singles.Cells[1, 18].Value = "Class B";
-                Singles.Cells[1, 19].Value = "Ranking B";
+                Singles.Cells[1, 2].Value = ".tto";
+                Singles.Cells[1, 3].Value = "Date";
+                Singles.Cells[1, 4].Value = "Tournament";
+                Singles.Cells[1, 5].Value = "Year";
+                Singles.Cells[1, 6].Value = "Category";
+                Singles.Cells[1, 7].Value = "Class";
+                Singles.Cells[1, 8].Value = "Round";
+                Singles.Cells[1, 9].Value = "Sex";
+                Singles.Cells[1, 10].Value = "Playtime (gross)";
+                Singles.Cells[1, 11].Value = "Surname A";
+                Singles.Cells[1, 12].Value = "First Name A";
+                Singles.Cells[1, 13].Value = "Country A";
+                Singles.Cells[1, 14].Value = "Class A";
+                Singles.Cells[1, 15].Value = "Ranking A";
+                Singles.Cells[1, 16].Value = "Surname B";
+                Singles.Cells[1, 17].Value = "First Name B";
+                Singles.Cells[1, 18].Value = "Country B";
+                Singles.Cells[1, 19].Value = "Class B";
+                Singles.Cells[1, 20].Value = "Ranking B";
 
                 int rowIndex = 2;
                 foreach (MatchEntry value in matches)
                 {
-                    Singles.Cells[rowIndex, 1].Value = "";
-                    Singles.Cells[rowIndex, 2].Value = value.DateTime.ToShortDateString();
-                    Singles.Cells[rowIndex, 3].Value = value.Tournament;
-                    Singles.Cells[rowIndex, 4].Value = value.Year;
-                    Singles.Cells[rowIndex, 5].Value = value.Category.ToString();
-                    Singles.Cells[rowIndex, 6].Value = value.DisabilityClass.ToString();
-                    Singles.Cells[rowIndex, 7].Value = value.Round.ToString();
-                    Singles.Cells[rowIndex, 8].Value = value.Sex.ToString();
-                    //Singles.Cells[rowIndex, 9].Value = "";
-                    Singles.Cells[rowIndex, 10].Value = value.FirstPlayer.Name;
-                    Singles.Cells[rowIndex, 11].Value = value.FirstPlayer.FirstName;
-                    Singles.Cells[rowIndex, 12].Value = value.FirstPlayer.Nationality;
-                    //Singles.Cells[rowIndex, 13].Value = "";
-                    //Singles.Cells[rowIndex, 14].Value = value.FirstPlayer.Rank.Position;
-                    Singles.Cells[rowIndex, 15].Value = value.SecondPlayer.Name;
-                    Singles.Cells[rowIndex, 16].Value = value.SecondPlayer.FirstName;
-                    Singles.Cells[rowIndex, 17].Value = value.SecondPlayer.Nationality;
-                    //Singles.Cells[rowIndex, 18].Value = "";
-                    //Singles.Cells[rowIndex, 19].Value = value.SecondPlayer.Rank.Position;
+                    //Singles.Cells[rowIndex, 1].Value = "";
+                    //Singles.Cells[rowIndex, 2].Value = "";
+                    Singles.Cells[rowIndex, 3].Value = value.DateTime.ToShortDateString();
+                    Singles.Cells[rowIndex, 4].Value = value.Tournament;
+                    Singles.Cells[rowIndex, 5].Value = value.Year;
+                    Singles.Cells[rowIndex, 6].Value = value.Category.ToString();
+                    Singles.Cells[rowIndex, 7].Value = value.DisabilityClass.ToString();
+                    Singles.Cells[rowIndex, 8].Value = value.Round.ToString();
+                    Singles.Cells[rowIndex, 9].Value = value.Sex.ToString();
+                    //Singles.Cells[rowIndex, 10].Value = "";
+                    Singles.Cells[rowIndex, 11].Value = value.FirstPlayer.Name;
+                    Singles.Cells[rowIndex, 12].Value = value.FirstPlayer.FirstName;
+                    Singles.Cells[rowIndex, 13].Value = value.FirstPlayer.Nationality;
+                    //Singles.Cells[rowIndex, 14].Value = "";
+                    //Singles.Cells[rowIndex, 15].Value = value.FirstPlayer.Rank.Position;
+                    Singles.Cells[rowIndex, 16].Value = value.SecondPlayer.Name;
+                    Singles.Cells[rowIndex, 17].Value = value.SecondPlayer.FirstName;
+                    Singles.Cells[rowIndex, 18].Value = value.SecondPlayer.Nationality;
+                    //Singles.Cells[rowIndex, 19].Value = "";
+                    //Singles.Cells[rowIndex, 20].Value = value.SecondPlayer.Rank.Position;
                     rowIndex++;
                 }
 
@@ -210,6 +212,7 @@ namespace DatabaseScript
             singlesCounter = 0;
             doublesCounter = 0;
             UpdateSelectedFolders(folderNames);
+            UpdateSelectedMatches(folderNames);
             UpdateCounters(singlesCounter, doublesCounter);
 
         }

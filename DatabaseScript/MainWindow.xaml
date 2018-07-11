@@ -26,7 +26,7 @@
             </Grid.ColumnDefinitions>
             <Button Name="LoadFolder" Grid.Row="0" Grid.Column="0" Content="Load Folder(s)" Click="LoadFolder_Click" Height="100" Width="200"></Button>
             <Button Name="ClearSelectedFolders" Grid.Row="0" Grid.Column="1" Content="Clear selected Folder(s)" Click="ClearSelectedFolders_Click"  Height="100" Width="200" IsEnabled="{Binding AnyFolderLoaded}"></Button>
-            <Button Name="ClearAllFolders" Grid.Row="0" Grid.Column="2" Content="Clear all loaded Folder(s)" Click="ClearAllFolders_Click"  Height="100" Width="200"></Button>
+            <Button Name="ClearAllFolders" Grid.Row="0" Grid.Column="2" Content="Clear all loaded Folder(s)" Click="ClearAllFolders_Click"  Height="100" Width="200" IsEnabled="{Binding AnyFolderLoaded}"></Button>
 
         </Grid>
         <Grid Grid.Row="1">
