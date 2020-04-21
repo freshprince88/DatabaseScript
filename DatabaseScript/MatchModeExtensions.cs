@@ -334,6 +334,21 @@ namespace DatabaseScript
         [Description("Class 6-8")]
         C6_8,
         /// <summary>
+        /// Class 7-8.
+        /// </summary>
+        [Description("Class 7-8")]
+        C7_8,
+        /// <summary>
+        /// Class 8-10.
+        /// </summary>
+        [Description("Class 8-10")]
+        C8_10,
+        /// <summary>
+        /// Class 8-9.
+        /// </summary>
+        [Description("Class 8-9")]
+        C8_9,
+        /// <summary>
         /// Class 9-10.
         /// </summary>
         [Description("Class 9-10")]
