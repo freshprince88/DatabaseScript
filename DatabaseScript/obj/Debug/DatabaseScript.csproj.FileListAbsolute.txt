@@ -27,3 +27,34 @@ C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\
 C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\EPPlus.xml
 C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\Michael Fuchs\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\DatabaseScript.exe.config
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\DatabaseScript.exe
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\DatabaseScript.pdb
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\ControlzEx.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\EPPlus.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\MahApps.Metro.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\Microsoft.WindowsAPICodePack.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\Microsoft.WindowsAPICodePack.Sensors.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\System.Windows.Interactivity.dll
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\ControlzEx.pdb
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\EPPlus.xml
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\MahApps.Metro.pdb
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\bin\Debug\MahApps.Metro.xml
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.csprojAssemblyReference.cache
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\MainWindow.g.cs
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\App.g.cs
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\GeneratedInternalTypeHelper.g.cs
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript_MarkupCompile.cache
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript_MarkupCompile.lref
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\App.baml
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\MainWindow.baml
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.g.resources
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.Properties.Resources.resources
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.csproj.GenerateResource.cache
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.csproj.CoreCompileInputs.cache
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.csproj.CopyComplete
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.exe
+\\Mac\Home\Documents\GitHub\DatabaseScript\DatabaseScript\obj\Debug\DatabaseScript.pdb

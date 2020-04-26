@@ -314,10 +314,20 @@ namespace DatabaseScript
         [Description("Class 1-3")]
         C1_3,
         /// <summary>
+        /// Class 2-3.
+        /// </summary>
+        [Description("Class 1-3")]
+        C2_3,
+        /// <summary>
         /// Class 1-5.
         /// </summary>
         [Description("Class 1-5")]
         C1_5,
+        /// <summary>
+        /// Class 3-5.
+        /// </summary>
+        [Description("Class 4-5")]
+        C3_5,
         /// <summary>
         /// Class 4-5.
         /// </summary>
